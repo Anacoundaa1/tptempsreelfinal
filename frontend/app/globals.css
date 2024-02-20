@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@font-face{
+  font-family: "Sky";
+  src: url("fonts/sky/16cef5659276ed6f49650b10e5f65a53.eot");
+  src: url("fonts/sky/16cef5659276ed6f49650b10e5f65a53.eot?#iefix")format("embedded-opentype"),
+      url("fonts/sky/16cef5659276ed6f49650b10e5f65a53.woff")format("woff"),
+      url("fonts/sky/16cef5659276ed6f49650b10e5f65a53.woff2")format("woff2"),
+      url("fonts/sky/16cef5659276ed6f49650b10e5f65a53.ttf")format("truetype"),
+      url("fonts/sky/16cef5659276ed6f49650b10e5f65a53.svg#Sky Sans W01 Book")format("svg");
+  font-weight:normal;
+  font-style:normal;
+  font-display:swap;
+}
+
+@font-face {
+  font-family: 'fontspring';
+  src: url("./fonts/fontspr.otf");
+}
+
+@font-face{
+  font-family: "Nostalgic Italic";
+  src: url("./fonts/Nostalgic\ Italic.ttf")format("truetype"),
+}
+
+@font-face{
+  font-family: "Nostalgic Regular";
+  src: url("./fonts/Nostalgic\ Regular.ttf")format("truetype"),
+}
+
+
+.fontspring {
+  font-family: fontspring;
+  
+}
+
+.sky{
+  font-family: Sky;
+}
+
+
+.nostalgic{
+  font-family: Nostalgic Regular;
+}
+
+.italicNos{
+  font-family: Nostalgic Italic;
+}
+
+
+.text-linear{
+  background: -webkit-linear-gradient(45deg,#EF9FFD, #6C99F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+.bg-linear{
+  background: -webkit-linear-gradient(45deg,#EF9FFD, #6C99F6) !important;
+}
+
+.bg-linear2{
+  background: -webkit-linear-gradient(90deg, #6c9af6a6,#ef9ffd83) !important;
+}
+
+.text-grey{
+  color: #949494;
+}
+
+.bg-point{
+  background: #222222;
+}
+
+.custom-border-container {
+  position: relative;
+}
+
+.custom-border-container p {
+  margin: 0;
+  border-radius: 10px; /* Ajoutez la valeur de rayon souhaitée */
+  position: relative;
+  z-index: 1;
+}
+
+.custom-border-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 12px; /* Ajoutez la valeur de rayon souhaitée + 2px */
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  box-shadow: 0 0 0 2px transparent, 0 0 0 4px #EF9FFD; /* Ajoutez la couleur de fond dégradée ici */
+  z-index: -1;
+}
+
+.box {
+  position: relative;
+}
+.box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px; 
+  padding: 1px; 
+  background: -webkit-linear-gradient(45deg,#EF9FFD, #6C99F6)  border-box;
+  -webkit-mask: 
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude; 
+}
+
+.bg-transparent{
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.fullscreen-image {
+  min-height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(rgba(22,22,22,0.65), rgba(22, 22, 22, 0.98),rgba(22,22,22,1)),url("images/fond.png");
+}
+
+
+
+.countdown-item {
+  text-align: center;
+  font-size: 9rem;
+  color: white;
+  animation: fadeInOut 1s ease-in-out;
+  visibility: hidden;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
