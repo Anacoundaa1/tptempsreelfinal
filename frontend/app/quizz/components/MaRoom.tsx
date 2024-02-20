@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { SocketContext } from "@/app/socketContext";
 import { useRouter } from "next/navigation";
 import { useRooms } from "@/app/quizz/RoomsContext";
+import { useQuizz } from "@/app/quizz/QuizzContext";
 
 
 const MaRoom = () => {
@@ -11,6 +12,7 @@ const MaRoom = () => {
     const socket = useContext(SocketContext);
     const router = useRouter();
     const { maRoom, setMaRoom } = useRooms();
+    const { quizz, setQuizz } = useQuizz();
 
 
     useEffect(() => {
@@ -26,23 +28,49 @@ const MaRoom = () => {
     }, [searchParams]);
 
 
-    socket.on("room", (room: any) => {
-        console.log("quelqu'une est parti")
-        setMaRoom(room);
-      });
+    // useEffect(() => {
+    //     console.log("ecouter mgl")
+    //     socket.on("room", (room: any) => {
+    //         setMaRoom(room);
+    //       });
 
-
-    console.log(maRoom);
-
+    //     return () => {
+    //         socket.off('room');
+    //     };
+    // },[socket])
 
     if(socket.connected == false){
        router.push('/quizz')
     }
 
+    useEffect(() => {
+        socket.on("newRoom", (room: any) => {
+            console.log(room);
+            setMaRoom(room);
+        });
+
+        return () => {
+            socket.off('newRoom');
+          };
+    },[socket]);
+
+    const leaveRoom = () => {
+        console.log("qqn est parti");
+        socket.emit("leaveRoom");
+    }
+
+    const startQuizz = (maRoom : any) => {
+        socket.emit("startQuizz",maRoom);
+        socket.on("roomWithQuizz", (data: any) => {
+            setQuizz(data.quizz);
+            router.push(`/quizz/debutquizz`);
+        })
+    }
+
   return (
     <div className="flex flex-col px-80 mt-24">
         <p className="text-white italicNos text-4xl">Ma room</p>
-        {maRoom ? (
+        {maRoom && !(Object.entries(maRoom).length === 0) ? (
             <div className="flex justify-between bg-white rounded-lg bg-linear2 items-center px-12 py-6 gap-40 mt-8">
                 <div className="flex flex-col gap-2 text-white">
                     <p className="fontspring text-2xl">{maRoom.theme}</p>
@@ -68,10 +96,10 @@ const MaRoom = () => {
                     <div className="flex flex-col gap-3">
 
                     <div className="px-10 py-2 bg-linear border border-1 border-white rounded-lg text-white">
-                        <p className="">Commencer</p>
+                        <p onClick={() => startQuizz(maRoom)} className="">Commencer</p>
                     </div>
                     <div className="px-10 py-2 border border-1 border-white rounded-lg text-white text-center">
-                        <p className="">Quitter</p>
+                        <p onClick={leaveRoom} className="">Quitter</p>
                     </div>
 
                     </div>

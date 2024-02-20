@@ -3,7 +3,7 @@ import Timer from "./Timer";
 import HeaderQuizz from "./HeaderQuizz";
 import { CounterProvider } from "../CounterContext";
 import { useCounter } from "../CounterContext";
-import socketContext from "../../socketContext";
+import {SocketContext} from "@/app/socketContext";
 
 
 interface QuestionsProps {
@@ -14,7 +14,7 @@ interface QuestionsProps {
 const Questions = ({ question, correctAnswer}: QuestionsProps) => {
   const { counter } = useCounter();
   const [selectedResponse, setSelectedResponse] = useState("");
-  const socket = useContext(socketContext);
+  const socket = useContext(SocketContext);
 
 
   useEffect(() => {

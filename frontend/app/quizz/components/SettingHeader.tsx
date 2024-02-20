@@ -38,25 +38,25 @@ const SettingHeader = ({ theme, setTheme }: Props) => {
     socket.emit('createRoom', preferences);
   };
 
-  socket.on("allRooms", (rooms: any) => {
-    setRoomDispo(rooms);
-  });
-
-  socket.on("room", (room: any) => {
-    console.log(room);
-    setMaRoom(room);
-  });
-
-  
   
 
   useEffect(() => {
-    console.log(roomDispo);
-    console.log(maRoom);
-    if (roomDispo.length > 0 && maRoom != undefined) {
-      router.push(`/quizz/room?selectedDifficulty=${maRoom.difficulty}&selectedQuizzTitle=${maRoom.theme}&selectedQuestionCount=${maRoom.nbQuestions}&selectedTime=${maRoom.timeQuestionss}`);
-    }
-  }, [roomDispo, router,maRoom]);
+    socket.on("allRooms", (rooms: any) => {
+      setRoomDispo(rooms);
+    });
+  
+    socket.on("room", (room: any) => {
+      console.log(room);
+      setMaRoom(room);
+      router.push(`/quizz/room?selectedDifficulty=${room.difficulty}&selectedQuizzTitle=${room.theme}&selectedQuestionCount=${room.nbQuestions}&selectedTime=${room.timeQuestionss}`);
+    });
+
+    return () => {
+      socket.off('allRooms');
+      socket.off('room');
+    };
+  },[socket,maRoom])
+
 
   return (
     <div className="mt-24 flex justify-between items-center w-full">

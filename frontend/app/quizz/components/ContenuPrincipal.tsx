@@ -9,10 +9,9 @@ import { useRouter } from 'next/navigation';  // Import de useRouter
 
 
 const ContenuPrincipal = () => {
-  const { selectedQuizzTitle, selectedDifficulty, selectedTime, selectedQuestionCount } = usePreferences();
 
   const socket = useContext(SocketContext);
-  const { roomDispo, setRoomDispo } = useRooms();
+  const { setRoomDispo } = useRooms();
   const router = useRouter(); // Import de useRouter
 
 
@@ -20,18 +19,20 @@ const ContenuPrincipal = () => {
   const getRooms = () =>{
     console.log('Recup de la room');
     socket.emit('getRooms');
+    router.push(`/quizz/room`);
   }
 
-  socket.on("allRooms", (rooms: any) => {
-    setRoomDispo(rooms);
-  });
+  
 
   useEffect(() => {
-    console.log(roomDispo);
-    if (roomDispo.length > 0) {
-      router.push(`/quizz/room`);
-    }
-  }, [roomDispo]);
+    socket.on("allRooms", (rooms: any) => {
+      setRoomDispo(rooms);
+    });
+
+    return () => {
+      socket.off('allRooms');
+    };
+  },[socket])
 
   return (
     <div className="flex flex-col justify-center items-center mt-12 w-full">

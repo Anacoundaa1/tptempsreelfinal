@@ -21,11 +21,7 @@ const VraiQuizz = ({ question,correctAnswer }: VraiQuizzProps) => {
     <CounterProvider>
       <div className="relative">
         <HeaderQuizz isVraiQuizz verif={verif} question={question} />
-        {question == '' ? (
-          <Timer setCurrentCountdown2={setCurrentCountdown} question={question} />
-        ) : (
-          <Questions question={question} correctAnswer={correctAnswer}/>
-        )}
+        <Questions question={question} correctAnswer={correctAnswer}/>
       </div>
     </CounterProvider>
   );
